@@ -84,9 +84,12 @@ if __name__ == "__main__":
 
         # Re-calculates URL ranks based on neighbor contributions.
         ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
+        # Save after each iteration
+        ranks.saveAsTextFile('gs://man_from_nanbucket/out/pagerank_data_' + str(iteration+1))
 
     # Collects all URL ranks and dump them to console.
-    for (link, rank) in ranks.collect():
-        print("%s has rank: %s." % (link, rank))
+    #for (link, rank) in ranks.collect():
+    #    print("%s has rank: %s." % (link, rank))
+    
 
     spark.stop()

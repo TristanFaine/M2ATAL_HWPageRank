@@ -2,7 +2,7 @@
 from org.apache.pig.scripting import *
 
 INIT = Pig.compile("""
-A = LOAD 'gs://small_page_links/small_page_links.nt' using PigStorage(' ') as (url:chararray, p:chararray, link:chararray);
+A = LOAD 'gs://public_lddm_data//page_links_en.nt.bz2' using PigStorage(' ') as (url:chararray, p:chararray, link:chararray);
 B = GROUP A by url;                                                                                  
 C = foreach B generate group as url, 1 as pagerank, A.link as links;                                 
 STORE C into '$docs_in';
@@ -35,14 +35,14 @@ STORE new_pagerank
     USING PigStorage('\t');
 """)
 
-params = { 'd': '0.5', 'docs_in': 'gs://small_page_links/out/pagerank_data_simple' }
+params = { 'd': '0.5', 'docs_in': 'gs://man_from_nanbucket/out/pagerank_data_simple' }
 
 stats = INIT.bind(params).runSingle()
 if not stats.isSuccessful():
       raise 'failed initialization'
 
 for i in range(3):
-   out = "gs://small_page_links/out/pagerank_data_" + str(i + 1)
+   out = "gs://man_from_nanbucket/out/pagerank_data_" + str(i + 1)
    params["docs_out"] = out
    Pig.fs("rmr " + out)
    stats = UPDATE.bind(params).runSingle()
