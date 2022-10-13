@@ -53,14 +53,14 @@ gcloud dataproc jobs submit pyspark --region europe-west1 --cluster cluster-a35a
 ```
 
 ### Data access example
+```
 gsutil cat gs://BUCKET_NAME/out/pagerank_data_NUMBER/part-r-00000
-
+```
 ## Deleting clusters
 Delete the cluster when finished.
 
 ```
 gcloud dataproc clusters delete cluster-a35a --region europe-west1
-
 ```
 
 ## Performance comparaison
